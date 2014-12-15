@@ -1,6 +1,6 @@
 <?php
 
-$config['default'] = 'application';
+$config['default'] = 'pizza';
 $config['lang'] = 'fr';
 if (strstr($_SERVER['HTTP_HOST'], 'jabouzi.com'))
 {

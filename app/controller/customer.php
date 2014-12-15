@@ -6,27 +6,12 @@ class Customer extends Controller
 
 	function __construct()
 	{
-		if (!islogged()) redirect('login');
-		if (!isadmin()) redirect('/');
-		$this->adminmodel = new adminmodel();
-		$this->mailerdecorator = new mailerdecorator();
+		$this->customermodel = new customermodel();
 	}
 
 	public function index($message = null)
 	{
-		$users = new useriterator($this->adminmodel->get_users());
-		view::load_view('default/standard/header');
-		view::load_view('default/standard/menu');
-		if ($users)
-		{
-			$data['users'] = $users;
-			view::load_view('default/admins/adminslist', $data);
-		}
-		else
-		{
-			view::load_view('default/index/welcome');
-		}
-		view::load_view('default/standard/footer');
+
 	}
 	
 	public function profile()
@@ -61,18 +46,6 @@ class Customer extends Controller
 		view::load_view('default/admins/edit', $data);
 		view::load_view('default/standard/footer');
 		unset($_SESSION['request']);
-	}
-
-	public function delete()
-	{
-		if ($_SESSION['admin_edit']['id'] != $_POST['id'])
-		{
-			$_SESSION['message'] = lang('account.security.detected');
-			redirect('admins/edit/'.$_SESSION['admin_edit']['email']);
-		}
-		$this->adminmodel->delete_user($_POST['email']);
-		$_SESSION['message'] = lang('admin.user.deleted');
-		redirect('admin');
 	}
 
 	public function processadd()
@@ -143,12 +116,5 @@ class Customer extends Controller
 			$_SESSION['message'] = lang('admin.user.updated');
 			redirect('admin/profile');
 		}
-	}
-	
-	private function sendemail($user, $edit = 0)
-	{
-		$text = array(APPPATH.'public/docs/adminemail.txt', APPPATH.'public/docs/adminemail2.txt');
-		$this->mailerdecorator->decorateadmin($user, file_get_contents($text[$edit]));
-		$this->mailerdecorator->sendadminmail($user);
 	}
 }
