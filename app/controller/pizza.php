@@ -11,12 +11,12 @@ class Pizza extends Controller
 
 	public function index($message = null)
 	{
-		$users = new pizzaiterator($this->pizzamodel->get_pizzas());
+		$pizzas = new pizzaiterator($this->pizzamodel->get_pizzas());
 		view::load_view('default/standard/header');
 		view::load_view('default/standard/menu');
-		if ($users)
+		if ($pizzas)
 		{
-			$data['users'] = $users;
+			$data['pizzas'] = $pizzas;
 			view::load_view('default/accounts/pizzaslist', $data);
 		}
 		else
@@ -35,11 +35,11 @@ class Pizza extends Controller
 		unset($_SESSION['request']);
 	}
 
-	public function edit($user_name)
+	public function edit($pizza_name)
 	{
-		$user = $this->usermodel->get_user($user_name);
-		$data['user'] = $user;
-		$_SESSION['user_edit'] = $user->__toArray();
+		$pizza = $this->pizzamodel->get_pizza($pizza_name);
+		$data['pizza'] = $pizza;
+		$_SESSION['pizza_edit'] = $pizza->__toArray();
 		view::load_view('default/standard/header');
 		view::load_view('default/standard/menu');
 		view::load_view('default/accounts/edit', $data);
@@ -49,50 +49,50 @@ class Pizza extends Controller
 
 	public function processadd()
 	{
-		if ($this->usermodel->user_email_exists($_POST['user_email']))
+		if ($this->pizzamodel->pizza_email_exists($_POST['pizza_email']))
 		{
 			$_SESSION['request'] = $_POST;
 			$_SESSION['message'] = lang('account.email.exists');
 			redirect('application/add');
 		}
-		else if ($this->usermodel->user_name_exists($_POST['user_name']))
+		else if ($this->pizzamodel->pizza_name_exists($_POST['pizza_name']))
 		{
 			$_SESSION['request'] = $_POST;
-			$_SESSION['message'] = lang('account.user.name.exists');
+			$_SESSION['message'] = lang('account.pizza.name.exists');
 			redirect('application/add');
 		}
 		else
 		{
-			$this->usermodel->add_user($_POST);
+			$this->pizzamodel->add_pizza($_POST);
 			$this->sendemail($_POST, self::ADD);
-			$_SESSION['message'] = lang('account.user.added');
+			$_SESSION['message'] = lang('account.pizza.added');
 			redirect('/');
 		}
 	}
 
 	public function processedit()
 	{
-		if ($_SESSION['user_edit']['user_name'] != $_POST['user_name'])
+		if ($_SESSION['pizza_edit']['pizza_name'] != $_POST['pizza_name'])
 		{
 			$_SESSION['message'] = lang('account.security.detected');
-			redirect('application/edit/'.$_SESSION['user_edit']['user_name']);
+			redirect('application/edit/'.$_SESSION['pizza_edit']['pizza_name']);
 		}
-		else if ($this->usermodel->user_email_exists($_POST['user_email'], $_POST['user_name']))
+		else if ($this->pizzamodel->pizza_email_exists($_POST['pizza_email'], $_POST['pizza_name']))
 		{
 			$_SESSION['request'] = $_POST;
 			$_SESSION['message'] = lang('account.email.exists');
-			redirect('application/edit/'.$_POST['user_name']);
+			redirect('application/edit/'.$_POST['pizza_name']);
 		}
 		else
 		{
-			if (count(compare_user_data($_POST, $_SESSION['user_edit'])))
+			if (count(compare_pizza_data($_POST, $_SESSION['pizza_edit'])))
 			{
-				$this->usermodel->update_user($_POST);
-				$user = $this->usermodel->get_user($_POST['user_name'])->__toArray();
-				$this->sendemail($user, self::EDIT);
-				$_SESSION['message'] = lang('account.user.updated');
+				$this->pizzamodel->update_pizza($_POST);
+				$pizza = $this->pizzamodel->get_pizza($_POST['pizza_name'])->__toArray();
+				$this->sendemail($pizza, self::EDIT);
+				$_SESSION['message'] = lang('account.pizza.updated');
 			}
-			redirect('application/edit/'.$_POST['user_name']);
+			redirect('application/edit/'.$_POST['pizza_name']);
 		}
 	}
 }

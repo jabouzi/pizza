@@ -2,40 +2,40 @@
 
 class Pizzaiterator implements Iterator
 {
-    private $users;
+    private $pizzas;
 
-    public function __construct($users)
+    public function __construct($pizzas)
     {
-        $this->users = $users;
+        $this->pizzas = $pizzas;
     }
 
     public function rewind()
     {
-        reset($this->users);
+        reset($this->pizzas);
     }
   
     public function current()
     {
-        $user = current($this->users);
-        return $user;
+        $pizza = current($this->pizzas);
+        return $pizza;
     }
   
     public function key() 
     {
-        $user = key($this->users);
-        return $user;
+        $pizza = key($this->pizzas);
+        return $pizza;
     }
   
     public function next() 
     {
-        $user = next($this->users);
-        return $user;
+        $pizza = next($this->pizzas);
+        return $pizza;
     }
   
     public function valid()
     {
-        $key = key($this->users);
-        $user = ($key !== NULL && $key !== FALSE);
-        return $user;
+        $key = key($this->pizzas);
+        $pizza = ($key !== NULL && $key !== FALSE);
+        return $pizza;
     }
 }

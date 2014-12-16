@@ -2,53 +2,67 @@
 
 class Pizza {
 
-	private $first_name;
-	private $last_name;
-	private $email;
-	private $password;
+	private $customer;
+	private $ingredients = array();
+	private $price;
+	private $isDelivery;
+	private $isCanceled;
 
 	function __construct()
 	{
-
+		
 	}
 	
-	public function set_email($email)
+	public function set_customer($customer_id)
 	{
-		$this->email = $email;
+		$this->customer = $customer_id;
 	}
 
-	public function set_first_name($first_name)
+	public function set_ingredients($ingredients)
 	{
-		$this->first_name = $first_name;
+		foreach($ingredient as $key => $value)
+		{
+			$this->ingredients[$key] = $value;
+		}
 	}
 
-	public function set_last_name($last_name)
+	public function set_price($price)
 	{
-		$this->last_name = $last_name;
+		$this->price = $price;
 	}
     
-	public function set_password($password)
+	public function set_type($type)
 	{
-		$this->password = $password;
+		$this->isDelivery = $type;
 	}
 	
-	public function get_email()
+	public function set_status($status)
 	{
-		return $this->email;
+		$this->isCanceled = $status;
+	}
+	
+	public function get_customer()
+	{
+		return $this->customer;
 	}
 
-	public function get_first_name()
+	public function get_ingredients()
 	{
-		return $this->first_name;
+		return $this->ingredients;
 	}
 
-	public function get_last_name()
+	public function get_price()
 	{
-		return $this->last_name;
+		return $this->price;
 	}
 
-	public function get_password()
+	public function get_type()
 	{
-		return $this->password;
+		return $this->isDelivery;
+	}
+	
+	public function get_status()
+	{
+		return $this->isCanceled;
 	}
 }

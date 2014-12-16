@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 14, 2014 at 08:33 PM
+-- Generation Time: Dec 15, 2014 at 08:15 PM
 -- Server version: 5.5.40-36.1-log
 -- PHP Version: 5.3.29
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `comments` varchar(100) NOT NULL,
   `date_created` datetime NOT NULL,
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `active` bit(1) NOT NULL DEFAULT b'0',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`customer_id`),
   KEY `phone` (`phone`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
@@ -66,17 +66,16 @@ DROP TABLE IF EXISTS `pizza`;
 CREATE TABLE IF NOT EXISTS `pizza` (
   `pizza_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
-  `ingredient_1` bit(1) NOT NULL DEFAULT b'0',
-  `ingredient_2` bit(1) NOT NULL DEFAULT b'0',
-  `ingredient_3` bit(1) NOT NULL DEFAULT b'0',
-  `delivery` bit(1) NOT NULL DEFAULT b'0',
+  `ingredient_1` tinyint(1) NOT NULL DEFAULT '0',
+  `ingredient_2` tinyint(1) NOT NULL DEFAULT '0',
+  `ingredient_3` tinyint(1) NOT NULL DEFAULT '0',
+  `delivery` tinyint(1) NOT NULL DEFAULT '0',
   `price` decimal(10,2) NOT NULL,
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_created` datetime NOT NULL,
-  `canceled` bit(1) NOT NULL DEFAULT b'0',
+  `canceled` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pizza_id`),
-  KEY `customer_id` (`customer_id`),
-  CONSTRAINT `pizza_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `customer_id` (`customer_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
@@ -90,6 +89,23 @@ CREATE TRIGGER `pizza_insert` BEFORE INSERT ON `pizza`
 END
 //
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` varchar(40) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `ip_address` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `user_agent` varchar(120) COLLATE utf8_unicode_ci NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`session_id`),
+  KEY `last_activity_idx` (`last_activity`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

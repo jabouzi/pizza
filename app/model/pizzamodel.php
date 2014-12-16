@@ -1,105 +1,57 @@
 <?php
 
-class Usermodel extends Model
+class pizzamodel extends Model
 {
-	private $userdata;
-	private $userdatadao;
-	private $cache;
-	private $log;
+	private $pizzadata;
+	private $pizzadatadao;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->userdata = new userdata();
-		$this->userdatadao = new userdatadao();
-		$this->cache = new cachefactory();
-		$this->log = Phplog::getInstance();
+		$this->pizzadata = new pizzadata();
+		$this->pizzadatadao = new pizzadatadao();
 	}
 
-	public function add_user($userdata)
+	public function add_pizza($pizzadata)
 	{
-		$userdata['user_vhost'] = adjust_vhosts($userdata['user_vhost']);
-		$builder = new userdatabuilder($userdata);
+		$builder = new pizzadatabuilder($pizzadata);
 		$builder->build();
-		$user = $builder->getUser();
-		$this->userdatadao->insert_user($user);
-		$this->userdatadao->insert_vhost($user);
-		$this->cache->delete('select_data_'.$userdata['user_name']);
-		$this->cache->delete('select_data_all');
-		$this->log->save('ADD USER', $userdata);
+		$pizza = $builder->getpizza();
+		$this->pizzadatadao->insert_pizza($pizza);
 	}
 
-	public function update_user($userdata)
+	public function update_pizza($pizzadata)
 	{
-		$userdata['user_vhost'] = adjust_vhosts($userdata['user_vhost']);
-		$builder = new userdatabuilder($userdata);
+		$builder = new pizzadatabuilder($pizzadata);
 		$builder->build();
-		$user = $builder->getUser();
-		$this->userdatadao->update_user($user);
-		$this->userdatadao->update_vhost($user);
-		$this->cache->delete('select_data_'.$userdata['user_name']);
-		$this->cache->delete('select_data_all');
-		$this->log->save('UPDATE USER', $userdata);
+		$pizza = $builder->getpizza();
+		$this->pizzadatadao->update_pizza($pizza);
 	}
 	
-	public function delete_user($user_name)
+	public function delete_pizza($pizza_id)
 	{
-		$this->userdatadao->delete_user($user_name);
-		$this->cache->delete('select_data_'.$user_name);
-		$this->cache->delete('select_data_all');
-		$this->log->save('DELETE USER', $user_name);
+		$this->pizzadatadao->delete_pizza($pizza_id);
 	}
 
-	public function get_user($user_name)
+	public function get_pizza($pizza_id)
 	{
-		if ($this->cache->get('select_data_'.$user_name)) return $this->cache->get('select_data_'.$user_name);
-		$result = $this->userdatadao->select_user($user_name);
-		$builder = new userdatabuilder($result);
+		$result = $this->pizzadatadao->select_pizza($pizza_id);
+		$builder = new pizzadatabuilder($result);
 		$builder->build();
-		$user = $builder->getUser();
-		$this->cache->save('select_data_'.$user_name, $user);
-		return $user;
+		$pizza = $builder->getpizza();
+		return $pizza;
 	}
 
-	public function get_users()
+	public function get_pizzas()
 	{
-		if ($this->cache->get('select_data_all')) return $this->cache->get('select_data_all');
-		$users = array();
-		$results = $this->userdatadao->select_all();
+		$pizzas = array();
+		$results = $this->pizzadatadao->select_all();
 		foreach($results as $result)
 		{
-			$result['user_vhost'] = array();
-			$builder = new userdatabuilder($result);
+			$builder = new pizzadatabuilder($result);
 			$builder->build();
-			$users[] = $builder->getUser();
+			$pizzas[] = $builder->getpizza();
 		}
-		$this->cache->save('select_data_all', $users);
-		return $users;
-	}
-
-	public function user_email_exists($user_email, $user_name = '')
-	{
-		$and = '';
-		$args = array(
-			':user_email' => $user_email
-		);
-		if ($user_name != '')
-		{
-			$args[':user_name'] = $user_name;
-			$and = ' AND user_name != :user_name';
-		}
-		$query = "SELECT count(*) as count FROM user_info WHERE user_email = :user_email {$and} ";
-		$count = $this->db->query($query, $args);
-		return intval($count[0]['count']);
-	}
-
-	public function user_name_exists($user_name)
-	{
-		$args = array(
-			':user_name' => $user_name
-		);
-		$query = "SELECT count(*) as count FROM user_info WHERE user_name = :user_name";
-		$count = $this->db->query($query, $args);
-		return intval($count[0]['count']);
+		return $pizzas;
 	}
 }

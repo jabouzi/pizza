@@ -2,28 +2,26 @@
 
 class Pizzabuilder
 {
-	protected $user = NULL;
-	protected $user_data = array();
+	protected $pizza = NULL;
+	protected $pizza_data = array();
 
-	public function __construct($user_data)
+	public function __construct($pizza_data)
 	{
-		$this->user_data = $user_data;
+		$this->pizza_data = $pizza_data;
 	}
 
 	public function build()
 	{
-		$this->user = new Userdata();
-		$this->user->set_user_name($this->user_data['user_name']);
-		$this->user->set_user_password($this->user_data['user_password']);
-		$this->user->set_user_group($this->user_data['user_group']);
-		$this->user->set_user_vhost($this->user_data['user_vhost']);
-		$this->user->set_user_email($this->user_data['user_email']);
-		$this->user->set_user_first_name($this->user_data['user_first_name']);
-		$this->user->set_user_last_name($this->user_data['user_last_name']);
+		$this->pizza = new Pizza();
+		$this->pizza->set_customer($this->pizza_data['customer_id']);
+		$this->pizza->set_ingredients(array($this->pizza_data['ingredient_1'], $this->pizza_data['ingredient_2'], $this->pizza_data['ingredient_3']));
+		$this->pizza->set_price($this->pizza_data['price']);
+		$this->pizza->set_type($this->pizza_data['delivery']);
+		$this->pizza->set_status($this->pizza_data['cancelled']);
 	}
 
-	public function getUser()
+	public function getpizza()
 	{
-		return $this->user;
+		return $this->pizza;
 	}
 }
