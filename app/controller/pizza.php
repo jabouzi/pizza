@@ -17,7 +17,7 @@ class Pizza extends Controller
 		if ($pizzas)
 		{
 			$data['pizzas'] = $pizzas;
-			view::load_view('default/accounts/pizzaslist', $data);
+			view::load_view('default/pizza/pizzaslist', $data);
 		}
 		else
 		{
@@ -42,7 +42,7 @@ class Pizza extends Controller
 		$_SESSION['pizza_edit'] = $pizza->__toArray();
 		view::load_view('default/standard/header');
 		view::load_view('default/standard/menu');
-		view::load_view('default/accounts/edit', $data);
+		view::load_view('default/pizza/edit', $data);
 		view::load_view('default/standard/footer');
 		unset($_SESSION['request']);
 	}

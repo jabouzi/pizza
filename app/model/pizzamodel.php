@@ -8,8 +8,8 @@ class pizzamodel extends Model
 	public function __construct()
 	{
 		parent::__construct();
-		$this->pizzadata = new pizzadata();
-		$this->pizzadatadao = new pizzadatadao();
+		$this->pizzadata = new Pizzadata();
+		$this->pizzadatadao = new Pizzadao();
 	}
 
 	public function add_pizza($pizzadata)
@@ -46,6 +46,7 @@ class pizzamodel extends Model
 	{
 		$pizzas = array();
 		$results = $this->pizzadatadao->select_all();
+		if (!$results) return array();
 		foreach($results as $result)
 		{
 			$builder = new pizzadatabuilder($result);

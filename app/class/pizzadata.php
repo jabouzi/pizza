@@ -1,6 +1,6 @@
 <?php
 
-class Pizza {
+class Pizzadata {
 
 	private $customer;
 	private $ingredients = array();

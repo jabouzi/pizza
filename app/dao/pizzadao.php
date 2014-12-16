@@ -28,7 +28,7 @@ class Pizzadao {
 	public function update_pizza($pizza, $pizza_id)
 	{
 		$args = array(
-			':pizza_id' => $pizza_id;
+			':pizza_id' => $pizza_id,
 			':customer_id' => $pizza->get_customer(),
 			':ingredient_1' => item($pizza->get_ingredients(), 0),
 			':ingredient_2' => item($pizza->get_ingredients(), 1),
