@@ -19,4 +19,4 @@ else
 $config['driver'] = 'mysql';
 $config['site_languages'] = array('fr', 'en');
 $config['autoload_helpers'] = array('functions');
-$config['autoload_languages'] = array('application');
+$config['autoload_languages'] = array('pizza');

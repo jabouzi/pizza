@@ -41,8 +41,8 @@
 	<div class="row">
 		<label for="delivery"><?php echo lang('form.type'); ?>:</label>
 		<select name="delivery" id="delivery">
-			<option value="1">Delivery</option>
-			<option value="0">Pickup</option>
+			<option value="1"><?php echo lang('form.delivery'); ?></option>
+			<option value="0"><?php echo lang('form.pickup'); ?></option>
 		</select>
     </div>
     <div class="row">
