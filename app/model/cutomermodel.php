@@ -14,66 +14,53 @@ class Customermodel extends Model
 		$this->customerdao = new customerdao();
 	}
 
-	public function add_user($userdata)
+	public function add_customer($customerdata)
 	{
-		if (!isset($userdata['customer'])) $userdata['customer'] = 0;
-		if (!isset($userdata['status'])) $userdata['status'] = 0;
-		$builder = new usercustomerbuilder($userdata);
+		if (!isset($customerdata['customer'])) $customerdata['customer'] = 0;
+		if (!isset($customerdata['status'])) $customerdata['status'] = 0;
+		$builder = new customerbuilder($customerdata);
 		$builder->build();
-		$user = $builder->getUser();
-		$this->customerdao->insert($user);
-		$this->cache->delete('select_customer_'.$userdata['email']);
-		$this->cache->delete('select_customer_all');
-		$this->log->save('ADD customer', $userdata);
+		$customer = $builder->getcustomer();
+		$this->customerdao->insert($customer);
 	}
 
-	public function update_user($userdata)
+	public function update_customer($customerdata)
 	{
-		if (!isset($userdata['customer'])) $userdata['customer'] = 0;
-		if (!isset($userdata['status'])) $userdata['status'] = 0;
-		$builder = new usercustomerbuilder($userdata);
+		if (!isset($customerdata['customer'])) $customerdata['customer'] = 0;
+		if (!isset($customerdata['status'])) $customerdata['status'] = 0;
+		$builder = new customercustomerbuilder($customerdata);
 		$builder->build();
-		$user = $builder->getUser();
-		$this->customerdao->update($user);
-		$this->cache->delete('select_customer_'.$userdata['email']);
-		$this->cache->delete('select_customer_all');
-		$this->log->save('UPDATE customer', $userdata);
+		$customer = $builder->getcustomer();
+		$this->customerdao->update($customer);
 	}
 
-	public function delete_user($email)
+	public function delete_customer($email)
 	{
 		$this->customerdao->delete($email);
-		$this->cache->delete('select_customer_'.$email);
-		$this->cache->delete('select_customer_all');
-		$this->log->save('UPDATE customer', $email);
 	}
 
-	public function get_user($email)
+	public function get_customer($email)
 	{
-		if ($this->cache->get('select_customer_'.$email)) return $this->cache->get('select_customer_'.$email);
-		$result = $this->customerdao->select_user($email);
-		$builder = new usercustomerbuilder($result);
+		$result = $this->customerdao->select_customer($email);
+		$builder = new customerbuilder($result);
 		$builder->build();
-		$user = $builder->getUser();
-		$this->cache->save('select_customer_'.$email, $user);
-		return $user;
+		$customer = $builder->getcustomer();
+		return $customer;
 	}
 
-	public function get_users()
+	public function get_customers()
 	{
-		if ($this->cache->get('select_customer_all')) return $this->cache->get('select_customer_all');
-		$users = array();
+		$customers = array();
 		$results = $this->customerdao->select_all();
 		foreach($results as $result)
 		{
-			if($_SESSION['user']['id'] != $result['id'])
+			if($_SESSION['customer']['id'] != $result['id'])
 			{
-				$builder = new usercustomerbuilder($result);
+				$builder = new customerbuilder($result);
 				$builder->build();
-				$users[] = $builder->getUser();
+				$customers[] = $builder->getcustomer();
 			}
 		}
-		$this->cache->save('select_customer_all', $users);
-		return $users;
+		return $customers;
 	}
 }
