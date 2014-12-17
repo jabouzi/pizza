@@ -34,6 +34,7 @@ class Customer extends Controller
 	public function search()
 	{
 		$_SESSION['request'] = $_POST;
+		$_SESSION['request']['phone'] = preg_replace("/[^0-9]/","",$_SESSION['request']['phone']);
 		$customers = $this->customermodel->get_by_phone($_SESSION['request']['phone']);
 		if (empty($customers))
 		{

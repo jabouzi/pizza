@@ -18,7 +18,7 @@ class Customerdao {
 			':address2' => $customer->get_address2(),
 			':city' => $customer->get_city(),
 			':postal_code' => $customer->get_postal_code(),
-			':phone' => $customer->get_phone(),
+			':phone' => $_SESSION['request']['phone'] = preg_replace("/[^0-9]/","",$customer->get_phone()),
 			':comments' => $customer->get_comments()
 		);
 		$query = "INSERT INTO customer (first_name, last_name, address, address2, city, postal_code, phone, comments) 
@@ -37,7 +37,7 @@ class Customerdao {
 			':address2' => $customer->get_address2(),
 			':city' => $customer->get_city(),
 			':postal_code' => $customer->get_postal_code(),
-			':phone' => $customer->get_phone(),
+			':phone' => preg_replace("/[^0-9]/","",$customer->get_phone()),
 			':comments' => $customer->get_comments(),
 			':active' => $customer->get_status()
 		);
