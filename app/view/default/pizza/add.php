@@ -1,6 +1,7 @@
 <div class="row"><?php display_message(); ?></div>
 <h2><?php echo lang('title.add.pizza'); ?></h2>
 <form action="/<?php echo get_site_lang(); ?>/pizza/processadd" method="post" id="addform" name="addform">
+	<input type="hidden" value="<?php echo print_post_text('customer_id'); ?>" name="customer_id" />
     <div class="row">
 		<label for="phone"><?php echo lang('form.phone'); ?>:</label>
 		<input type="text" name="phone" id="phone" value="<?php echo print_post_text('phone'); ?>" data-validate="required" />

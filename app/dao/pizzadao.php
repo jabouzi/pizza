@@ -16,11 +16,12 @@ class Pizzadao {
 			':ingredient_1' => item($pizza->get_ingredients(), 0),
 			':ingredient_2' => item($pizza->get_ingredients(), 1),
 			':ingredient_3' => item($pizza->get_ingredients(), 2),
+			':price' => $pizza->get_price(),
 			':delivery' => $pizza->get_type(),
 			':canceled' => $pizza->get_status()
 		);
-		$query = "INSERT INTO pizza (customer_id, ingredient_1, ingredient_2, ingredient_3, delivery, canceled) 
-				VALUES (:customer_id, :ingredient_1, :ingredient_2, :ingredient_3, :delivery, :canceled)";
+		$query = "INSERT INTO pizza (customer_id, ingredient_1, ingredient_2, ingredient_3, price, delivery, canceled) 
+				VALUES (:customer_id, :ingredient_1, :ingredient_2, :ingredient_3, :price, :delivery, :canceled)";
 		$insert = $this->db->query($query, $args);
 		return $insert;
 	}
@@ -33,13 +34,14 @@ class Pizzadao {
 			':ingredient_1' => item($pizza->get_ingredients(), 0),
 			':ingredient_2' => item($pizza->get_ingredients(), 1),
 			':ingredient_3' => item($pizza->get_ingredients(), 2),
+			':price' => $pizza->get_price(),
 			':delivery' => $pizza->get_type(),
 			':canceled' => $pizza->get_status()
 		);
 
 		$query = "UPDATE pizza SET
 				customer_id = :customer_id, ingredient_1 = :ingredient_1, ingredient_2 = :ingredient_2, ingredient_3 = :ingredient_3, 
-				delivery = :delivery, canceled = :canceled WHERE pizza_id = :pizza_id";
+				price = :price, delivery = :delivery, canceled = :canceled WHERE pizza_id = :pizza_id";
 		$update = $this->db->query($query, $args);
 		return $update;
 	}

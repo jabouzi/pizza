@@ -35,12 +35,17 @@ class Customer extends Controller
 	{
 		$_SESSION['request'] = $_POST;
 		$customers = $this->customermodel->get_by_phone($_SESSION['request']['phone']);
-		if (empty($customers)) redirect('pizza/add');
+		if (empty($customers))
+		{
+			$_SESSION['request']['customer_id'] = 0;
+			redirect('pizza/add');
+		}
 		$data['customers'] = $customers;
 		view::load_view('default/standard/header');
 		view::load_view('default/standard/menu');
 		view::load_view('default/pizza/customerlist', $data);
 		view::load_view('default/standard/footer');
+		unset($_SESSION['request']);
 	}
 	
 	public function select($id)

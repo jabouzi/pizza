@@ -76,4 +76,17 @@ class Pizzadata {
 	{
 		return $this->isCanceled;
 	}
+	
+	public function __toArray()
+	{
+		return array(
+			'pizza_id' => $this->get_id(),
+			'customer_id' => $this->get_customer(),
+			'ingredients_1' => item($this->get_ingredients(), 0),
+			'ingredients_2' => item($this->get_ingredients(), 1),
+			'ingredients_3' => item($this->get_ingredients(), 2),
+			'delivery' => $this->get_type(),
+			'status' => $this->get_status(),
+		);
+	}
 }

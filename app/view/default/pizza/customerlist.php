@@ -1,5 +1,5 @@
 <div class="row"><?php display_message(); ?></div>
-<h1><?php echo lang('title.accounts'); ?></h1>
+<h1><?php echo lang('title.customers.list'); ?></h1>
 <div id="browsecontacts">
 <?php
 	foreach ($customers as $customer) {
