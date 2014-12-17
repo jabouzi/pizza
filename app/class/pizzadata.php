@@ -2,6 +2,7 @@
 
 class Pizzadata {
 
+	private $pizza_id;
 	private $customer;
 	private $ingredients = array();
 	private $price;
@@ -13,6 +14,11 @@ class Pizzadata {
 		
 	}
 	
+	public function set_id($pizza_id)
+	{
+		$this->pizza_id = $pizza_id;
+	}
+	
 	public function set_customer($customer_id)
 	{
 		$this->customer = $customer_id;
@@ -20,7 +26,7 @@ class Pizzadata {
 
 	public function set_ingredients($ingredients)
 	{
-		foreach($ingredient as $key => $value)
+		foreach($ingredients as $key => $value)
 		{
 			$this->ingredients[$key] = $value;
 		}
@@ -39,6 +45,11 @@ class Pizzadata {
 	public function set_status($status)
 	{
 		$this->isCanceled = $status;
+	}
+
+	public function get_id()
+	{
+		return $this->pizza_id;
 	}
 	
 	public function get_customer()

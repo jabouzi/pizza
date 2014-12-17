@@ -7,11 +7,15 @@ class Pizza extends Controller
 	function __construct()
 	{
 		$this->pizzamodel = new pizzamodel();
+		$this->customermodel = new customermodel();
 	}
 
-	public function index($message = null)
+	public function index()
 	{
-		redirect('pizza/add');
+		view::load_view('default/standard/header');
+		view::load_view('default/standard/menu');
+		view::load_view('default/pizza/search');
+		view::load_view('default/standard/footer');
 	}
 
 	public function add()
@@ -25,24 +29,14 @@ class Pizza extends Controller
 
 	public function processadd()
 	{
-		if ($this->pizzamodel->pizza_email_exists($_POST['pizza_email']))
+		$_POST['customer_id'] = $this->customermodel->add_customer($_POST);
+		for($i = 1; $i <=3; $i++)
 		{
-			$_SESSION['request'] = $_POST;
-			$_SESSION['message'] = lang('account.email.exists');
-			redirect('pizza/add');
+			if (!isset($_POST['ingredient_'.$i])) $_POST['ingredient_'.$i] = 0;
 		}
-		else if ($this->pizzamodel->pizza_name_exists($_POST['pizza_name']))
-		{
-			$_SESSION['request'] = $_POST;
-			$_SESSION['message'] = lang('account.pizza.name.exists');
-			redirect('pizza/add');
-		}
-		else
-		{
-			$this->pizzamodel->add_pizza($_POST);
-			$this->sendemail($_POST, self::ADD);
-			$_SESSION['message'] = lang('account.pizza.added');
-			redirect('/');
-		}
+		if (!isset($_POST['canceled'])) $_POST['canceled'] = 0;
+		$this->pizzamodel->add_pizza($_POST);
+		$_SESSION['message'] = lang('account.pizza.added');
+		redirect('/');
 	}
 }

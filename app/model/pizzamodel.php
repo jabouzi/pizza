@@ -14,7 +14,7 @@ class pizzamodel extends Model
 
 	public function add_pizza($pizzadata)
 	{
-		$builder = new pizzadatabuilder($pizzadata);
+		$builder = new pizzabuilder($pizzadata);
 		$builder->build();
 		$pizza = $builder->getpizza();
 		$this->pizzadatadao->insert_pizza($pizza);
@@ -22,7 +22,7 @@ class pizzamodel extends Model
 
 	public function update_pizza($pizzadata)
 	{
-		$builder = new pizzadatabuilder($pizzadata);
+		$builder = new pizzabuilder($pizzadata);
 		$builder->build();
 		$pizza = $builder->getpizza();
 		$this->pizzadatadao->update_pizza($pizza);
@@ -36,7 +36,7 @@ class pizzamodel extends Model
 	public function get_pizza($pizza_id)
 	{
 		$result = $this->pizzadatadao->select_pizza($pizza_id);
-		$builder = new pizzadatabuilder($result);
+		$builder = new pizzabuilder($result);
 		$builder->build();
 		$pizza = $builder->getpizza();
 		return $pizza;
@@ -49,7 +49,7 @@ class pizzamodel extends Model
 		if (!$results) return array();
 		foreach($results as $result)
 		{
-			$builder = new pizzadatabuilder($result);
+			$builder = new pizzabuilder($result);
 			$builder->build();
 			$pizzas[] = $builder->getpizza();
 		}

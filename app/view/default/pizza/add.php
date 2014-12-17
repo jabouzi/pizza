@@ -19,11 +19,19 @@
 	</div>
     <div class="row">
 		<label for="address2"><?php echo lang('form.address2'); ?>:</label>
-		<input type="text" name="address2" id="address2" value="<?php echo print_post_text('address2'); ?>" data-validate="required" />
+		<input type="text" name="address2" id="address2" value="<?php echo print_post_text('address2'); ?>"/>
+	</div>
+    <div class="row">
+		<label for="city"><?php echo lang('form.city'); ?>:</label>
+		<input type="text" name="city" id="city" value="<?php echo print_post_text('city'); ?>"/>
+	</div>
+    <div class="row">
+		<label for="postal_code"><?php echo lang('form.postal_code'); ?>:</label>
+		<input type="text" name="postal_code" id="postal_code" value="<?php echo print_post_text('postal_code'); ?>"/>
 	</div>
     <div class="row">
 		<label for="comments"><?php echo lang('form.comments'); ?>:</label>
-		<textarea name="comments" id="comments" maxlength="100" data-validate="required"><?php echo print_post_text('comments'); ?></textarea>
+		<textarea name="comments" id="comments" maxlength="100"><?php echo print_post_text('comments'); ?></textarea>
 	</div>
 	<hr>
 	<div class="row">

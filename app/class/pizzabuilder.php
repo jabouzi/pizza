@@ -13,11 +13,12 @@ class Pizzabuilder
 	public function build()
 	{
 		$this->pizza = new Pizzadata();
+		if (isset($this->pizza_data['pizza_id'])) $this->pizza->set_id($this->pizza_data['pizza_id']);
 		$this->pizza->set_customer($this->pizza_data['customer_id']);
 		$this->pizza->set_ingredients(array($this->pizza_data['ingredient_1'], $this->pizza_data['ingredient_2'], $this->pizza_data['ingredient_3']));
 		$this->pizza->set_price($this->pizza_data['price']);
 		$this->pizza->set_type($this->pizza_data['delivery']);
-		$this->pizza->set_status($this->pizza_data['cancelled']);
+		$this->pizza->set_status($this->pizza_data['canceled']);
 	}
 
 	public function getpizza()
